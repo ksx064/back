@@ -6,65 +6,9 @@
         <title>JSP Page</title>
     </head>
     <body> 
-<%  	
-    try {
-//Step 1: 載入資料庫驅動程式 
-        	Class.forName("com.mysql.jdbc.Driver");	  
-	//使用JDBC去連結MySQL，所以該行語法的意思，就是要告訴電腦我要使用JDBC
-        try {
-//Step 2: 建立連線 
-        	String url="jdbc:mysql://localhost:3306/?serverTimezone=UTC";
-            Connection con=DriverManager.getConnection(url,"root","1234");   
-		//建立connection(連線)的語法，url代表我所要連結的MySQL所在IP，root是帳號，1234是密碼
-		//此連線是指和mySql連線，不是和存在mySql內的特定資料庫連線。		
-//Step 5: 顯示結果 				
-		   if(con.isClosed()){
-			   out.println("連線建立失敗");
-		   }else{
-			   String id=request.getParameter("id"); 
-			   String password=request.getParameter("password");
-			   String idnumber="";	   
-			   Boolean ok=false;
-			   if(id==null || id.equals("") || password==null || password.equals("")){
-				    out.print("資料未齊全");
-			   }else{
-				   String sql="use b2c";
-				   con.createStatement().execute(sql);
-				   sql="Select * from members";
-				   PreparedStatement pstmt = con.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-				   ResultSet rs=pstmt.executeQuery();
-				   while(rs.next()){
-					   if(id.equals(rs.getString(2)) && password.equals(rs.getString(5))){
-						   ok=true;
-						idnumber=rs.getString(1);
-					   }
-				   }
-				   if(ok){ 
-					   session.setAttribute("online",idnumber);					   
-  					   response.sendRedirect("index.jsp");
-				   }else{
-					   out.print("登入失敗");
-				   }
-			   }
-			 
-		   }
-     
-              
-//Step 6: 關閉連線
-           con.close();
-        }            
-        catch (SQLException sExec) {
-           out.println("SQL錯誤!" + sExec.toString());
-        }
-    }       
-    catch (ClassNotFoundException err) {
-          out.println("class錯誤" + err.toString());
-    }    
-%>      
+
     </body>
 </html>
-
-
 <!DOCTYPE html>
 <html lang="en" class="h-100">
 
@@ -132,14 +76,14 @@
                 <span class="m-auto">ImageStock</span>
             </div>
             <div class="col-md-6 card shadow text-center mx-auto">
-                <form class="card-body row g-3">
+                <form class="card-body row g-3" action = "check.jsp" method ="POST">
                     <h1 class="card-title fw-lighter">Welcome to ImageStock</h1>
                     <h6 class="h6 fw-normal">Log Into ImageStock</h6>
                     <div class="form-floating">
-                        <input type="email" class="form-control" id="email" placeholder="name@example.com">
+                        <input type="email" class="form-control" id="email" name ="email" placeholder="name@example.com">
                         <label for="email">Email address</label></div>
                     <div class="form-floating">
-                        <input type="password" class="form-control" id="password" placeholder="Password">
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Password" >
                         <label for="password">Password</label></div>
                     <br>
                     <button class="w-100 btn btn-lg btn-primary" type="submit">Log In</button>

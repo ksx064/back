@@ -4,7 +4,7 @@ try {
 	Class.forName("com.mysql.jdbc.Driver");
 	try {
 		String url="jdbc:mysql://localhost:3306/?serverTimezone=UTC";
-		Connection con=DriverManager.getConnection(url,"root","12345678");
+		Connection con=DriverManager.getConnection(url,"root","1234");
 		Statement smt = con.createStatement();
 		String sql="USE `ImageStock`";
 		smt.execute(sql);
