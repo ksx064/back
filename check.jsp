@@ -33,9 +33,9 @@
 				   PreparedStatement pstmt = con.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 				   ResultSet rs=pstmt.executeQuery();
 				   while(rs.next()){
-					   if(email.equals(rs.getString(4)) && password.equals(rs.getString(8))){
+					   if(email.equals(rs.getString("email")) && password.equals(rs.getString("password"))){
 						   ok=true;
-						idnumber=rs.getString(1);
+						idnumber=rs.getString("mid");
 					   }
 				   }
 				   if(ok){ 
@@ -59,4 +59,4 @@
     catch (ClassNotFoundException err) {
           out.println("class錯誤" + err.toString());
     }   
-	%> 
+	%>
